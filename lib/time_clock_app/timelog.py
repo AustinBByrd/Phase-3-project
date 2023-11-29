@@ -1,4 +1,5 @@
 import datetime
+import os
 from sqlalchemy import Column, Integer, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.exc import SQLAlchemyError
@@ -25,6 +26,7 @@ class TimeLog(Base):
         try:
             session.add(new_log)
             session.commit()
+            os.system('cls' if os.name == 'nt' else 'clear')
             print(f"Clocked in at {new_log.clock_in_time}")
             return new_log
         except SQLAlchemyError as e:
@@ -40,6 +42,7 @@ class TimeLog(Base):
             if log:
                 log.clock_out_time = datetime.datetime.now()
                 session.commit()
+                os.system('cls' if os.name == 'nt' else 'clear')
                 print(f"Clocked out at {log.clock_out_time}")
             else:
                 print("No active time log found.")
