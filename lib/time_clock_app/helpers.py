@@ -1,5 +1,8 @@
 import os
 import getpass
+import datetime
+import csv
+from sqlalchemy import func
 from models import User
 from timelog import TimeLog
 
@@ -118,3 +121,47 @@ def view_all_time_logs(session, filter_by_user=None, filter_by_date=None):
 
     for log in query.all():
         print(f"User ID: {log.user_id}, Clock In: {log.clock_in_time}, Clock Out: {log.clock_out_time}")
+
+import datetime
+
+def generate_report(session, user_id=None, start_date=None, end_date=None):
+    
+    query = session.query(
+        TimeLog.user_id,
+        TimeLog.clock_in_time,
+        TimeLog.clock_out_time
+    )
+
+ 
+    if user_id:
+        query = query.filter(TimeLog.user_id == user_id)
+    if start_date:
+        query = query.filter(TimeLog.clock_in_time >= start_date)
+    if end_date:
+        query = query.filter(TimeLog.clock_in_time <= end_date)
+
+    
+    raw_data = query.all()
+
+    
+    total_hours = {}
+    for record in raw_data:
+        user, clock_in, clock_out = record.user_id, record.clock_in_time, record.clock_out_time
+        if clock_out and clock_in: 
+            duration = (clock_out - clock_in).total_seconds() / 3600
+            if user in total_hours:
+                total_hours[user] += duration
+            else:
+                total_hours[user] = duration
+
+    
+    report_data = [(user, hours) for user, hours in total_hours.items()]
+    return report_data
+
+def export_report_to_csv(report_data, filename):
+    with open(f'{filename}.csv', mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['User ID', 'Total Hours Worked'])
+
+        for user_id, total_hours in report_data:
+            writer.writerow([user_id, total_hours])
