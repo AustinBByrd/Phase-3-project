@@ -87,7 +87,7 @@ def reset_user_password(session):
     user = session.query(User).get(user_id)
     if user:
         new_password = getpass.getpass("Enter the new password: ")
-        user.password = new_password  # Hash this password in real applications
+        user.password = new_password  
         session.commit()
         os.system('cls' if os.name == 'nt' else 'clear')
         print(f"Password for {user.username} reset successfully.")
