@@ -94,3 +94,27 @@ def reset_user_password(session):
     else:
         os.system('cls' if os.name == 'nt' else 'clear')
         print("User not found.")
+
+def edit_time_log(session, user_id, new_clock_in=None, new_clock_out=None):
+    time_log = session.query(TimeLog).filter(TimeLog.user_id == user_id).first()
+    if not time_log:
+        print("Time log not found.")
+        return
+
+    if new_clock_in:
+        time_log.clock_in_time = new_clock_in
+    if new_clock_out:
+        time_log.clock_out_time = new_clock_out
+
+    session.commit()
+    print(f"Time log updated for user {user_id}.")
+
+def view_all_time_logs(session, filter_by_user=None, filter_by_date=None):
+    query = session.query(TimeLog)
+    if filter_by_user:
+        query = query.filter(TimeLog.user_id == filter_by_user)
+    if filter_by_date:
+        query = query.filter(TimeLog.clock_in_time >= filter_by_date)
+
+    for log in query.all():
+        print(f"User ID: {log.user_id}, Clock In: {log.clock_in_time}, Clock Out: {log.clock_out_time}")

@@ -11,10 +11,13 @@ from helpers import (
     admin_login,
     list_all_users,
     delete_user,
-    reset_user_password
+    reset_user_password,
+    edit_time_log, 
+    view_all_time_logs
 )
 
 os.system('cls' if os.name == 'nt' else 'clear')
+
 def main():
     session = Session()
     while True:
@@ -34,6 +37,7 @@ def main():
             exit_program()
         else:
             print("Invalid choice")
+
 def get_current_time():
     current_time = time.localtime()
     formatted_time = time.strftime("%I:%M %p", current_time) 
@@ -48,7 +52,6 @@ def menu():
     print("3. View user information")
     print("4. Admin login")
     print("0. Exit the program")
-    
 
 def admin_menu(session):
     while True:
@@ -59,7 +62,8 @@ def admin_menu(session):
         print("2. List all users")
         print("3. Delete a user")
         print("4. Reset user password")
-        print("5. Return to main menu")
+        print("5. Time Logs")
+        print("6. Return to main menu")
         print("0. Exit the program")
         admin_choice = input("> ")
         if admin_choice == "1":
@@ -73,9 +77,40 @@ def admin_menu(session):
             reset_user_password(session)
         elif admin_choice == "5":
             os.system('cls' if os.name == 'nt' else 'clear')
+            time_logs_menu(session)
+        elif admin_choice == "6":
+            os.system('cls' if os.name == 'nt' else 'clear')
             break
         elif admin_choice == "0":
             exit_program()
+
+def time_logs_menu(session):
+    while True:
+        print("\nTime Logs Menu")
+        print("1. Edit Time Log")
+        print("2. View All Time Logs")
+        print("0. Back to Admin Menu")
+        choice = input("> ")
+
+        if choice == "1":
+            edit_time_log_option(session)
+        elif choice == "2":
+            view_all_time_logs_option(session)
+        elif choice == "0":
+            break
+        else:
+            print("Invalid choice")
+
+def edit_time_log_option(session):
+    user_id = input("Enter User ID to edit time log: ")
+    new_clock_in = input("Enter new Clock In time (YYYY-MM-DD HH:MM:SS), leave blank if no change: ")
+    new_clock_out = input("Enter new Clock Out time (YYYY-MM-DD HH:MM:SS), leave blank if no change: ")
+    edit_time_log(session, user_id, new_clock_in, new_clock_out)
+
+def view_all_time_logs_option(session):
+    filter_user = input("Enter User ID to filter by, leave blank for no filter: ")
+    filter_date = input("Enter date to filter by (YYYY-MM-DD), leave blank for no filter: ")
+    view_all_time_logs(session, filter_user, filter_date)
 
 if __name__ == "__main__":
     initialize_db()
