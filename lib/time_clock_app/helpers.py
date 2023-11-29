@@ -47,3 +47,8 @@ def clock_out_user(session):
         print("Clocked out successfully.")
     else:
         print("User not found.")
+
+def admin_login():
+    username = input("Enter admin username: ")
+    password = input("Enter admin password: ")
+    return username == "admin" and password == "admin"
