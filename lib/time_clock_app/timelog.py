@@ -1,14 +1,14 @@
 import datetime
-from sqlalchemy import create_engine, Column, Integer, ForeignKey, DateTime
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, relationship
+import os
+from sqlalchemy import Column, Integer, ForeignKey, DateTime
+from sqlalchemy.orm import relationship
 from sqlalchemy.exc import SQLAlchemyError
-from database import User  # Ensure this import matches your project structure
-
-Base = declarative_base()
+from base import Base
+from models import User
 
 class TimeLog(Base):
     __tablename__ = 'time_logs'
+    __table_args__ = {'extend_existing': True}
 
     id = Column(Integer, primary_key=True)
     clock_in_time = Column(DateTime, default=datetime.datetime.now)
@@ -26,6 +26,7 @@ class TimeLog(Base):
         try:
             session.add(new_log)
             session.commit()
+            os.system('cls' if os.name == 'nt' else 'clear')
             print(f"Clocked in at {new_log.clock_in_time}")
             return new_log
         except SQLAlchemyError as e:
@@ -37,11 +38,11 @@ class TimeLog(Base):
     def clock_out(cls, user, session):
         """ Record the clock-out time for the user """
         try:
-            # Find the latest time log without a clock_out_time
             log = session.query(cls).filter_by(user=user, clock_out_time=None).first()
             if log:
                 log.clock_out_time = datetime.datetime.now()
                 session.commit()
+                os.system('cls' if os.name == 'nt' else 'clear')
                 print(f"Clocked out at {log.clock_out_time}")
             else:
                 print("No active time log found.")
@@ -49,13 +50,4 @@ class TimeLog(Base):
             print(f"Database error: {e}")
             session.rollback()
 
-# Initialize database connection and session
-engine = create_engine('sqlite:///timeclock.db')
-Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine)
-session = Session()
 
-# Example usage
-# Assuming 'user' is an instance of the User class
-# time_log = TimeLog.clock_in(user, session)
-# time_log = TimeLog.clock_out(user, session)

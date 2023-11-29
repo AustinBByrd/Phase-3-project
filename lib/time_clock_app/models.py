@@ -1,9 +1,8 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, relationship
+# models.py
+from base import Base 
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy.orm import relationship
 import datetime
-
-Base = declarative_base()
 
 class User(Base):
     __tablename__ = 'users'
@@ -13,27 +12,25 @@ class User(Base):
     password = Column(String, nullable=False)
     time_logs = relationship("TimeLog", back_populates="user")
 
-    # ORM methods like create, delete, etc.
 
-class TimeLog(Base):
-    __tablename__ = 'time_logs'
+    @classmethod
+    def create(cls, username, password, session):
+        new_user = cls(username=username, password=password)
+        try:
+            session.add(new_user)
+            session.commit()
+            return new_user
+        except SQLAlchemyError as e:
+            print(f"Error creating user: {e}")
+            session.rollback()
+            return None
+        
+    def total_hours_worked(self):
+        total_duration = 0
+        for log in self.time_logs:
+            if log.clock_in_time and log.clock_out_time:
+                duration = log.clock_out_time - log.clock_in_time
+                total_duration += duration.total_seconds()
 
-    id = Column(Integer, primary_key=True)
-    clock_in_time = Column(DateTime, default=datetime.datetime.now)
-    clock_out_time = Column(DateTime, nullable=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    user = relationship("User", back_populates="time_logs")
-
-    # ORM methods like create, delete, etc.
-
-# Database initialization
-engine = create_engine('sqlite:///timeclock.db')
-Base.metadata.create_all(engine)
-
-Session = sessionmaker(bind=engine)
-session = Session()
-
-# Example ORM operations
-new_user = User(username='john_doe', password='secure_password123')
-session.add(new_user)
-session.commit()
+        total_hours = total_duration / 3600
+        return total_hours
