@@ -1,4 +1,6 @@
-from time_clock_app.database import Session
+from time_clock_app.database import Session, initialize_db
+
+initialize_db
 
 session = Session()
 
