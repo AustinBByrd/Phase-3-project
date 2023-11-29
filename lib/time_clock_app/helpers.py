@@ -6,6 +6,15 @@ from sqlalchemy import func
 from models import User
 from timelog import TimeLog
 
+def green_text(text):
+    return f"\033[92m{text}\033[0m"
+
+def red_text(text):
+    return f"\033[91m{text}\033[0m"
+
+def display_clock():
+    now = datetime.datetime.now()
+    print(f"Time: {now.strftime('%I:%M:%S %p')}")
 
 def register_user(session):
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -40,20 +49,23 @@ def clock_in_user(session):
     user = session.query(User).get(user_id)
     if user:
         TimeLog.clock_in(user, session)
-        print("Clocked in successfully.")
+        display_clock()
+        print(green_text("Clocked in successfully."))
     else:
         os.system('cls' if os.name == 'nt' else 'clear')
-        print("User not found.")
+        print(red_text("User not found."))
+
 
 def clock_out_user(session):
     user_id = int(input("Enter your user ID: "))
     user = session.query(User).get(user_id)
     if user:
         TimeLog.clock_out(user, session)
-        print("Clocked out successfully.")
+        display_clock()
+        print(red_text("Clocked out successfully."))
     else:
         os.system('cls' if os.name == 'nt' else 'clear')
-        print("User not found.")
+        print(red_text("User not found."))
 
 def admin_login():
     username = input("Enter admin username: ")
