@@ -26,6 +26,8 @@ button_width = 40
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+clear_screen()
+
 def center_text(text, width):
     total_width = width * 2 + 1
     return text.center(total_width)
