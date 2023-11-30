@@ -85,6 +85,7 @@ def admin_login():
         os.system('cls' if os.name == 'nt' else 'clear')
         return True
     else:
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("Admin login failed. Please try again.")
         return False
 
@@ -104,6 +105,7 @@ def delete_user(session):
             os.system('cls' if os.name == 'nt' else 'clear')
             print("User deleted successfully.")
         else:
+            os.system('cls' if os.name == 'nt' else 'clear')
             print("User deletion canceled.")
     else:
         print("User not found.")
@@ -124,6 +126,7 @@ def reset_user_password(session):
 def edit_time_log(session, user_id, new_clock_in=None, new_clock_out=None):
     time_log = session.query(TimeLog).filter(TimeLog.user_id == user_id).first()
     if not time_log:
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("Time log not found.")
         return
 
@@ -133,6 +136,7 @@ def edit_time_log(session, user_id, new_clock_in=None, new_clock_out=None):
         time_log.clock_out_time = new_clock_out
 
     session.commit()
+    os.system('cls' if os.name == 'nt' else 'clear')
     print(f"Time log updated for user {user_id}.")
 
 def view_all_time_logs(session, filter_by_user=None, filter_by_date=None):

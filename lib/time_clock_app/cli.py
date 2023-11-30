@@ -18,7 +18,14 @@ from helpers import (
     view_all_time_logs
 )
 
-os.system('cls' if os.name == 'nt' else 'clear')
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def center_text(text, width):
+    total_width = width * 2 + 1  # Since you have two buttons and a space
+    return text.center(total_width)
+
+clear_screen()
 init(autoreset=True)
 
 def main():
@@ -33,18 +40,21 @@ def main():
         elif choice == "3":
             user_info(session)
         elif choice == "4":
-            os.system('cls' if os.name == 'nt' else 'clear')
             if admin_login():  
+                clear_screen()
                 admin_menu(session)
         elif choice == "0":
             exit_program()
         else:
             print("Invalid choice")
 
-def get_current_time():
+def print_centered_current_time():
     current_time = time.localtime()
     formatted_time = time.strftime("%I:%M %p", current_time) 
-    return formatted_time
+    total_width = button_width * 2 + 1  
+    centered_time = f"{formatted_time}".center(total_width)
+    print(centered_time)
+
 
 def create_button(label, width):
     color_text = Fore.MAGENTA
@@ -70,25 +80,20 @@ def print_grid_menu(options, width):
 
 button_width = 40
 def menu():
-    # os.system('cls' if os.name == 'nt' else 'clear')
-    current_time = get_current_time() 
-    print(f"Current Time: {current_time}")
-    print("Please select an option:")
+    print_centered_current_time()
+    print(center_text("Please select an option:", button_width))
     # Define menu options for the grid layout.
     menu_options = [
         "1. Clock in", "2. Clock out",
         "3. View user information", "4. Admin login",
         "0. Exit the program"
     ]
-    # Assuming a console width that can accommodate 40 characters per button.
     print_grid_menu(menu_options, button_width)
 
 def admin_menu(session):
     while True:
-
-        current_time = get_current_time()
-        print(f"Current Time: {current_time}")
-        print("Admin Menu:")
+        print_centered_current_time()
+        print(center_text("Admin Menu:", button_width))
         
         # Define admin menu options for the grid layout.
         admin_options = [
@@ -105,31 +110,38 @@ def admin_menu(session):
         if admin_choice == "1":
             register_user(session)
         elif admin_choice == "2":
-            os.system('cls' if os.name == 'nt' else 'clear')
+            clear_screen()
             list_all_users(session)
         elif admin_choice == "3":
             delete_user(session)
         elif admin_choice == "4":
             reset_user_password(session)
         elif admin_choice == "5":
-            os.system('cls' if os.name == 'nt' else 'clear')
+            clear_screen()
             time_logs_menu(session)
         elif admin_choice == "6":
-            os.system('cls' if os.name == 'nt' else 'clear')
+            clear_screen()
             reports_menu(session)
         elif admin_choice == "7":
-            os.system('cls' if os.name == 'nt' else 'clear')
+            clear_screen()
             break
         elif admin_choice == "0":
             exit_program()
 
-
 def time_logs_menu(session):
     while True:
-        print("\nTime Logs Menu")
-        print("1. Edit Time Log")
-        print("2. View All Time Logs")
-        print("0. Back to Admin Menu")
+        print_centered_current_time()
+        print(center_text("Time Logs Menu:", button_width))
+        
+        # Define time logs menu options for the grid layout.
+        time_logs_options = [
+            "1. Edit Time Log", "2. View All Time Logs",
+            "0. Back to Admin Menu"
+        ]
+        
+        # Print time logs menu in grid layout.
+        print_grid_menu(time_logs_options, button_width)
+        
         choice = input("> ")
 
         if choice == "1":
@@ -137,16 +149,26 @@ def time_logs_menu(session):
         elif choice == "2":
             view_all_time_logs_option(session)
         elif choice == "0":
+            clear_screen()
             break
         else:
             print("Invalid choice")
 
+
 def reports_menu(session):
     while True:
-        print("\nReports Menu")
-        print("1. Generate Report")
-        print("2. Export Report to CSV")
-        print("0. Back to Admin Menu")
+        print_centered_current_time()
+        print(center_text("Reports Menu:", button_width))
+
+        # Define reports menu options for the grid layout.
+        reports_options = [
+            "1. Generate Report", "2. Export Report to CSV",
+            "0. Back to Admin Menu"
+        ]
+
+        # Print reports menu in grid layout.
+        print_grid_menu(reports_options, button_width)
+
         choice = input("> ")
 
         if choice == "1":
@@ -154,9 +176,11 @@ def reports_menu(session):
         elif choice == "2" and 'report_data' in locals():
             export_report_option(report_data)
         elif choice == "0":
+            clear_screen()
             break
         else:
             print("Invalid choice")
+
 
 def edit_time_log_option(session):
     user_id = input("Enter User ID to edit time log: ")
@@ -167,6 +191,7 @@ def edit_time_log_option(session):
 def view_all_time_logs_option(session):
     filter_user = input("Enter User ID to filter by, leave blank for no filter: ")
     filter_date = input("Enter date to filter by (YYYY-MM-DD), leave blank for no filter: ")
+    clear_screen()
     view_all_time_logs(session, filter_user, filter_date)
 
 if __name__ == "__main__":
