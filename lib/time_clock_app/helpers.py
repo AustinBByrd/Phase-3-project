@@ -48,24 +48,35 @@ def clock_in_user(session):
     user_id = int(input("Enter your user ID: "))
     user = session.query(User).get(user_id)
     if user:
-        TimeLog.clock_in(user, session)
-        display_clock()
-        print(green_text("Clocked in successfully."))
+        # Check if the user has already clocked in without clocking out
+        latest_time_log = (session.query(TimeLog)
+                           .filter_by(user_id=user.id, clock_out_time=None)
+                           .order_by(TimeLog.clock_in_time.desc())
+                           .first())
+        if latest_time_log:
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print("You are already clocked in.")
+        else:
+            TimeLog.clock_in(user, session)
     else:
-        os.system('cls' if os.name == 'nt' else 'clear')
-        print(red_text("User not found."))
+        print("User not found.")
 
 
 def clock_out_user(session):
     user_id = int(input("Enter your user ID: "))
     user = session.query(User).get(user_id)
     if user:
-        TimeLog.clock_out(user, session)
-        display_clock()
-        print(red_text("Clocked out successfully."))
+        # Check if the user has an ongoing time log
+        latest_time_log = (session.query(TimeLog)
+                           .filter_by(user_id=user.id, clock_out_time=None)
+                           .first())
+        if latest_time_log:
+            TimeLog.clock_out(user, session)
+        else:
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print("You are not currently clocked in or you have already clocked out.")
     else:
-        os.system('cls' if os.name == 'nt' else 'clear')
-        print(red_text("User not found."))
+        print("User not found.")
 
 def admin_login():
     username = input("Enter admin username: ")

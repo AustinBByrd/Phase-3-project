@@ -1,7 +1,7 @@
 import os
-import subprocess
 import time
 from datetime import datetime
+from colorama import init, Fore, Back, Style
 from reports import generate_report_option, export_report_option
 from database import Session, initialize_db
 from helpers import (
@@ -15,12 +15,11 @@ from helpers import (
     delete_user,
     reset_user_password,
     edit_time_log, 
-    view_all_time_logs,
-    generate_report,
-    export_report_to_csv
+    view_all_time_logs
 )
 
 os.system('cls' if os.name == 'nt' else 'clear')
+init(autoreset=True)
 
 def main():
     session = Session()
@@ -47,29 +46,61 @@ def get_current_time():
     formatted_time = time.strftime("%I:%M %p", current_time) 
     return formatted_time
 
+def create_button(label, width):
+    color_text = Fore.MAGENTA
+    color_bg = Back.YELLOW
+    reset = Style.RESET_ALL
+    # Create a single button with top, middle, and bottom parts.
+    top_bottom = color_bg + '+' + '-' * (width - 2) + '+' + reset
+    middle = color_bg + '|' + color_text + label.center(width - 2) + '|' + reset
+    return top_bottom, middle, top_bottom
+
+def print_grid_menu(options, width):
+    # Print menu options in a grid layout.
+    for i in range(0, len(options), 2):
+        left_top, left_middle, left_bottom = create_button(options[i], width)
+        if i + 1 < len(options):
+            right_top, right_middle, right_bottom = create_button(options[i + 1], width)
+        else:
+            right_top, right_middle, right_bottom = ' ' * width, ' ' * width, ' ' * width
+        print(left_top + ' ' + right_top)
+        print(left_middle + ' ' + right_middle)
+        print(left_bottom + ' ' + right_bottom)
+        print()
+
+button_width = 40
 def menu():
+    # os.system('cls' if os.name == 'nt' else 'clear')
     current_time = get_current_time() 
     print(f"Current Time: {current_time}")
     print("Please select an option:")
-    print("1. Clock in")
-    print("2. Clock out")
-    print("3. View user information")
-    print("4. Admin login")
-    print("0. Exit the program")
+    # Define menu options for the grid layout.
+    menu_options = [
+        "1. Clock in", "2. Clock out",
+        "3. View user information", "4. Admin login",
+        "0. Exit the program"
+    ]
+    # Assuming a console width that can accommodate 40 characters per button.
+    print_grid_menu(menu_options, button_width)
 
 def admin_menu(session):
     while True:
+
         current_time = get_current_time()
         print(f"Current Time: {current_time}")
         print("Admin Menu:")
-        print("1. Register new user")
-        print("2. List all users")
-        print("3. Delete a user")
-        print("4. Reset user password")
-        print("5. Time Logs")
-        print("6. Reports")
-        print("7. Return to main menu")
-        print("0. Exit the program")
+        
+        # Define admin menu options for the grid layout.
+        admin_options = [
+            "1. Register new user", "2. List all users",
+            "3. Delete a user", "4. Reset user password",
+            "5. Time Logs", "6. Reports",
+            "7. Return to main menu", "0. Exit the program"
+        ]
+        
+        # Print admin menu in grid layout.
+        print_grid_menu(admin_options, button_width)
+        
         admin_choice = input("> ")
         if admin_choice == "1":
             register_user(session)
@@ -91,6 +122,7 @@ def admin_menu(session):
             break
         elif admin_choice == "0":
             exit_program()
+
 
 def time_logs_menu(session):
     while True:
