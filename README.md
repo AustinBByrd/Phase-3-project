@@ -17,7 +17,7 @@ To install this application, follow these steps:
   `git clone https://github.com/AustinBByrd/Phase-3-project`
 
 3. Navigate to the cloned directory:
-   cd [cloned-directory-name]
+   `cd [cloned-directory-name]`
    
 3. Install required dependencies:
    
