@@ -39,7 +39,7 @@ To use this application:
 
 1. Run the script from inside lib/time_clock_app:
 
-  python gen_data.py
+    python gen_data.py
 
 #### This will generate a random timeclock.db if one does not exist or modify the current one with Users and Timelogs
    
