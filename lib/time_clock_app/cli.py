@@ -3,7 +3,6 @@ import time
 from colorama import init, Fore, Back, Style
 from reports import generate_report_option, export_report_option
 from database import Session, initialize_db
-# from click_testing import animation
 from helpers import (
     exit_program,
     register_user,
@@ -71,18 +70,6 @@ def get_menu_options(context):
 
 def menu():
     print_centered_current_time()
-    print("        _____")
-    print("     _.'_____`._")
-    print("   .'.-'  12 `-.`.")
-    print("  /,' 11      1 `.\\")
-    print(" // 10  \       2 \\\\")
-    print(";;       \         ::")
-    print("|| 9  ----O      3 ||")
-    print("::                 ;;")
-    print(" \\\\ 8           4 //")
-    print("  \`. 7       5 ,'/")
-    print("   '.`-.__6__.-'.")
-    print("      -._____.-")
     print(center_text("Please select an option:", button_width))
     print_grid_menu(get_menu_options('main'), button_width)
 #------------------------------------------------------------------------ functionality----------------------------------------------------- 
