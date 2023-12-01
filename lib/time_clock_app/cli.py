@@ -3,7 +3,7 @@ import time
 from colorama import init, Fore, Back, Style
 from reports import generate_report_option, export_report_option
 from database import Session, initialize_db
-from click_testing import animation
+# from click_testing import animation
 from helpers import (
     exit_program,
     register_user,
@@ -15,8 +15,10 @@ from helpers import (
     delete_user,
     reset_user_password,
     edit_time_log, 
-    view_all_time_logs
+    view_all_time_logs,
+    clear_screen
 )
+
 
 # Initialize Colorama
 init(autoreset=True)
@@ -24,14 +26,14 @@ init(autoreset=True)
 # Constants
 button_width = 40
 
-def clear_screen():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-clear_screen()
-
 def center_text(text, width):
     total_width = width * 2 + 1
     return text.center(total_width)
+
+clear_screen()
+
+#---------------------------------------------------------------------------GUI--------------------------------------------------------------
+
 
 def print_centered_current_time():
     current_time = time.localtime()
@@ -69,10 +71,21 @@ def get_menu_options(context):
 
 def menu():
     print_centered_current_time()
-    # animation()
+    print("        _____")
+    print("     _.'_____`._")
+    print("   .'.-'  12 `-.`.")
+    print("  /,' 11      1 `.\\")
+    print(" // 10  \       2 \\\\")
+    print(";;       \         ::")
+    print("|| 9  ----O      3 ||")
+    print("::                 ;;")
+    print(" \\\\ 8           4 //")
+    print("  \`. 7       5 ,'/")
+    print("   '.`-.__6__.-'.")
+    print("      -._____.-")
     print(center_text("Please select an option:", button_width))
     print_grid_menu(get_menu_options('main'), button_width)
-
+#------------------------------------------------------------------------ functionality----------------------------------------------------- 
 def admin_menu(session):
     while True:
         print_centered_current_time()

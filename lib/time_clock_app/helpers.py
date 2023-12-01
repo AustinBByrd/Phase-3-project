@@ -6,6 +6,9 @@ from sqlalchemy import func
 from models import User
 from timelog import TimeLog
 
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    
 def green_text(text):
     return f"\033[92m{text}\033[0m"
 
