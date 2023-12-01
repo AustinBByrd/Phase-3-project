@@ -14,7 +14,7 @@ This repository contains a Python-based CLI (Command Line Interface) application
 To install this application, follow these steps:
 
 1. Clone the repository:
-  git clone https://github.com/AustinBByrd/Phase-3-project
+  `git clone https://github.com/AustinBByrd/Phase-3-project`
 
 3. Navigate to the cloned directory:
    cd [cloned-directory-name]
