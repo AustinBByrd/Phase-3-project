@@ -34,6 +34,16 @@ To use this application:
    
 3. Follow the on-screen prompts to navigate through the menu options.
 
+## Generate Data script
+To use this application:
+
+1. Run the script from inside lib/time_clock_app:
+
+  python gen_data.py
+
+#### This will generate a random timeclock.db if one does not exist or modify the current one with Users and Timelogs
+   
+
 ## Contributing
 Contributions to this project are welcome. To contribute:
 
