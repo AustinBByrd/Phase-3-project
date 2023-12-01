@@ -21,16 +21,16 @@ To install this application, follow these steps:
    
 3. Install required dependencies:
    
-   pipenv install
+   `pipenv install`
 
-   pipenv shell
+   `pipenv shell`
    
 ## Usage
 To use this application:
 
 1. Run the script from inside lib/time_clock_app:
 
-   python cli.py
+   `python cli.py`
    
 3. Follow the on-screen prompts to navigate through the menu options.
 
@@ -39,7 +39,7 @@ To use this application:
 
 1. Run the script from inside lib/time_clock_app:
 
-    python gen_data.py
+    `python gen_data.py`
 
 #### This will generate a random timeclock.db if one does not exist or modify the current one with Users and Timelogs
    
