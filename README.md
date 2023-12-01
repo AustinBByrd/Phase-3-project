@@ -1,28 +1,44 @@
-Phase-3-Project
-Description
-Phase-3-Project is a command-line timeclock system designed to efficiently manage and track user work hours. This application allows for easy user management, enabling users to clock in and out while automatically tracking their working hours. A standout feature of this system is its visual clock, which provides a graphical representation of the time users clock in or out, enhancing the user experience and making time tracking more intuitive.
+# Time Tracking CLI Application
 
+## Introduction
+This repository contains a Python-based CLI (Command Line Interface) application designed for time tracking. This tool is particularly useful for managing employee clock-in and clock-out times, viewing and editing time logs, and generating reports.
 
+## Features
+- **User Management**: Register new users, view user information, and delete users.
+- **Time Tracking**: Users can clock in and clock out. Administrators can view and edit time logs for all users.
+- **Reports**: Generate and export time tracking reports.
+- **Admin Panel**: Special administrative functionalities for managing users and viewing detailed logs.
+- **User-Friendly Interface**: Easy-to-navigate menu options with clear, centered text display.
 
-Example:
+## Installation
+To install this application, follow these steps:
 
-git clone https://github.com/AustinBByrd/Phase-3-project
-cd phase-3-project
-pip install the requirements needed by terminal
+1. Clone the repository:
+  git clone https://github.com/AustinBByrd/Phase-3-project
 
-As a command-line interface (CLI) application, Phase-3-Project is interacted with through terminal commands. Here's how you can get started:
+3. Navigate to the cloned directory:
+   cd [cloned-directory-name]
+   
+3. Install required dependencies:
+   
+   pipenv install
 
-Launch the application:
-python cli.py
+   pipenv shell
+   
+## Usage
+To use this application:
 
-Follow the on-screen prompts to add users, clock in, and clock out.
+1. Run the script from inside lib/time_clock_app:
 
-View the visual clock display for a graphical representation of time tracking.
+   python cli.py
+   
+3. Follow the on-screen prompts to navigate through the menu options.
 
-(Adjust the above commands according to your actual file structure and command design.)
+## Contributing
+Contributions to this project are welcome. To contribute:
 
-Features
-User Management: Add and manage users within the system.
-Clock In/Out: Users can easily clock in at the start and clock out at the end of their work session.
-Time Tracking: Automatically tracks the time between clocking in and out.
-Visual Clock Display: Offers a unique visual representation of user's clocked time.
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Make your changes and commit them (`git commit -am 'Add some feature'`).
+4. Push to the branch (`git push origin feature-branch`).
+5. Create a new Pull Request.
