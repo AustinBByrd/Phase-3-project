@@ -2,8 +2,7 @@ Phase-3-Project
 Description
 Phase-3-Project is a command-line timeclock system designed to efficiently manage and track user work hours. This application allows for easy user management, enabling users to clock in and out while automatically tracking their working hours. A standout feature of this system is its visual clock, which provides a graphical representation of the time users clock in or out, enhancing the user experience and making time tracking more intuitive.
 
-Installation
-(Include steps to install your project here, such as cloning the repository, installing required dependencies, and any initial setup commands.)
+
 
 Example:
 
